@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#0b1020">
+    <title>OctoPi PWA</title>
+    <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <main id="app">
+      <header>
+        <div>
+          <p class="eyebrow">OctoPrint</p>
+          <h1>Imprimante</h1>
+        </div>
+        <button id="settingsButton" class="icon-button" aria-label="Paramètres">⚙</button>
+      </header>
+
+      <section id="setup" class="panel" hidden>
+        <h2>Configurer OctoPrint</h2>
+        <button id="discoverButton" class="secondary">Chercher sur le réseau</button>
+        <div id="instances" class="instances"></div>
+        <form id="setupForm">
+          <label>Adresse OctoPrint
+            <input name="baseUrl" type="url" placeholder="http://octopi.local" required>
+          </label>
+          <label>Clé API
+            <input name="apiKey" type="password" autocomplete="off" required>
+          </label>
+          <button type="submit">Se connecter</button>
+        </form>
+      </section>
+
+      <section id="dashboard" hidden>
+        <div class="status-row">
+          <span id="stateBadge" class="badge">Inconnu</span>
+          <span id="updatedAt"></span>
+        </div>
+
+        <section class="grid">
+          <article class="card">
+            <p>Bus</p><strong id="toolTemp">-- / -- °C</strong>
+          </article>
+          <article class="card">
+            <p>Plateau</p><strong id="bedTemp">-- / -- °C</strong>
+          </article>
+        </section>
+
+        <section class="panel job-panel">
+          <p class="label">Progression</p>
+          <h2 id="jobName">Aucune impression</h2>
+          <div class="progress"><span id="progressBar"></span></div>
+          <div class="progress-meta">
+            <strong id="progressText">0%</strong><span id="timeText">--:-- restantes</span>
+          </div>
+          <div class="actions">
+            <button id="startButton" class="secondary">Démarrer</button>
+            <button id="pauseButton" class="secondary">Pause</button>
+            <button id="cancelButton" class="danger">Annuler</button>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Contrôle</h2>
+          <div class="controls">
+            <button data-command="home" data-axis="x">Accueil X</button>
+            <button data-command="home" data-axis="y">Accueil Y</button>
+            <button data-command="home" data-axis="z">Accueil Z</button>
+            <button data-command="motoroff">Moteurs off</button>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="section-heading">
+            <h2>Fichiers</h2>
+            <button id="refreshFiles" class="secondary">Actualiser</button>
+          </div>
+          <label class="upload">
+            Téléverser un G-code
+            <input id="fileInput" type="file" accept=".gcode,.gco,.g">
+          </label>
+          <div id="fileList" class="file-list"></div>
+        </section>
+      </section>
+    </main>
+    <div id="toast" role="status"></div>
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>
